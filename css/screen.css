@@ -1,28 +1,31 @@
 /*------------------------------------*\
 #FONTS
 \*------------------------------------*/
-@font-face{
+
+@font-face {
     font-family: "Inter UI Web";
-    font-weight:200;
+    font-weight: 400;
     src: url("../fonts/Inter-UI-Regular.woff2") format("woff2")
 }
 
 @font-face {
     font-family: "Inter UI Web";
-    font-weight: 400;
+    font-weight: 600;
     src: url("../fonts/Inter-UI-Medium.woff2") format("woff2")
 }
 
 @font-face {
     font-family: "Inter UI Web";
-    font-weight: 600;
+    font-weight: 700;
     src: url("../fonts/Inter-UI-Bold.woff2") format("woff2")
 }
+
 /*------------------------------------*\
 #Variables
 \*------------------------------------*/
 
 :root {
+    /* colors */
     --color-alpha-xx-light: #DCEAFF;
     --color-alpha-x-light: #81ADF0;
     --color-alpha-light: #4F95FF;
@@ -40,15 +43,19 @@
     --color-neutral-xx-dark: #4b4c60;
     --color-neutral-xxx-dark: #35374d;
     --color-neutral-xxxx-dark: #20223a;
+
+    /* Shadows */
     --shadow-color: #20223a15;
     --inset-shadow: inset 0 1px 1px var(--shadow-color);
     --focus-shadow-color: #3385FF30;
     --focus-shadow: 0 0 0 3px var(--focus-shadow-color);
+
+    /* border radius */
     --radius: 3px;
+
+    /* transitions */
     --transition-alpha: .1s ease-in-out;
 }
-
-/* CSS variables here */
 
 /*------------------------------------*\
 #GENERIC
@@ -63,13 +70,12 @@
 html {
     font-size: 16px;
     line-height: 1.5;
-    font-family: 'Inter UI', 'Comic Sans MS', sans-serif;
-    color: #20223a;
+    font-family: "Inter UI Web", Helvetica, arial, sans-serif;
+    color: var(--color-neutral-xxxx-dark);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #4F95FF;
-    z-index: 1;
+    background-color: var(--color-neutral-xxxx-light);
 }
 
 *,
@@ -86,7 +92,7 @@ html {
 */
 
 ::-moz-selection {
-    background: var(--color-alpha); 
+    background: var(--color-alpha);
     color: white;
     text-shadow: none;
 }
@@ -121,7 +127,7 @@ img {
 h1,
 h2,
 h3 {
-    font-weight: 600;
+    font-weight: 700;
 }
 
 h1 {
@@ -145,7 +151,8 @@ h3 {
 h4,
 h5,
 h6 {
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
     margin: 0 0 24px;
 }
@@ -197,25 +204,34 @@ hr {
 }
 
 a {
-    color: #3385FF;
-    transition: all .1s ease-in-out;
+    transition: all var(--transition-alpha);
+    color: var(--color-alpha);
+    outline-color: var(--color-alpha);
+    outline-width: medium;
+    outline-offset: 2px;
 }
 
-    a:visited,
-    a:active {
-        color: #3385FF;
-    }
-
-    a:hover,
-    a:focus {
-        color: #2E77E6;
-    }
-
-label {
-    display: block;
+a:visited,
+a:active {
+    color: var(--color-alpha);
 }
+
+a:hover,
+a:focus {
+    color: var(--color-alpha-light);
+}
+
+label,
 input {
     display: block;
+}
+
+select {
+    width: 100%;
+}
+
+input::placeholder {
+    color: var(--color-neutral-x-light);
 }
 
 /*------------------------------------*\
@@ -234,13 +250,19 @@ input {
 }
 
 .o-row--login {
-    /* stuff here to align the card */
+    min-height: 100vh;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
 }
 
-.o-row--gradient {
+.o-row--beta {
     background-color: var(--color-alpha);
     background-image: linear-gradient(to bottom right, var(--color-alpha-light), var(--color-alpha-dark));
 }
+
 /* size modifiers */
 
 .o-row--lg {
@@ -472,6 +494,12 @@ input {
     -webkit-appearance: none;
 }
 
+/*
+    Object: Hide accessible
+    ---
+    Accessibly hide any element
+*/
+
 .o-hide-accessible {
     position: absolute;
     width: 1px;
@@ -493,36 +521,78 @@ input {
     Website main logo
 */
 
+.c-logo {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 48px;
+}
+
+.c-logo__symbol {
+    height: 100%;
+}
+
+.c-logo__path--1 {
+    fill: var(--color-neutral-xxxx-dark);
+}
+
+.c-logo__path--2 {
+    fill: var(--color-alpha);
+}
+
+.c-logo__path--3 {
+    fill: var(--color-alpha-x-dark);
+}
+
+/* Light logo alternative */
+
+.c-logo--light .c-logo__path {
+    fill: white;
+}
+
 /*
     Component: Card
     ---
     Card with box shadow
 */
+
 .c-card {
     background-color: white;
-    border-radius: 3px;
-    border: #000000 1px;
-    box-shadow: 0 2 4 #000000;
+    margin-bottom: 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px rgba(0,0,0, 0.05), 0 2px 4px rgba(0,0,0,.075);
+    overflow: hidden;
 }
 
-.c-card__body{
-    padding:0px 48px 0px 48px;
+/* Add padding to child for more flexibility */
+.c-card__body,
+.c-card__footer {
+    padding: 24px 24px 0;
+    overflow: auto; /* Fix margin collapse */
+}
 
+.c-card__footer {
+    text-align: center;
+    border-top: 1px solid var(--color-neutral-xxx-light);
+    background-color: var(--color-neutral-xxxx-light);
 }
 
 .c-card__title {
     text-align: center;
     font-size: 18px;
-    line-height:26px;
-    padding-top:48px;
-    padding-bottom:24px;
-
+    line-height: 24px;
+    font-weight: 600;
 }
 
-.c-card__footer {
-    padding: 24px 0px 8px 0px;
-    border-top: 1px solid #E2E3E7;
-    text-align: center;
+@media (min-width: 27em) {
+    .c-card__body {
+        padding: 48px 48px 24px;
+    }
+
+    .c-card__title {
+        margin-bottom: 48px;
+    }
 }
 
 /*
@@ -531,12 +601,19 @@ input {
     Everything form related here
 */
 
+.c-form-field--option {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+}
+
 /*
     Component: Input
     ---
     Class to put on all input="text" like form inputs
 */
-
 
 .c-input {
     -webkit-appearance: none;
@@ -546,7 +623,7 @@ input {
     border: 1px solid var(--color-neutral-xxx-light);
     border-radius: var(--radius);
     background-color: #fff;
-    color: var(--color-neutral-xxxx-dark)
+    color: var(--color-neutral-xxxx-dark);
     font-family: inherit;
     font-size: 16px;
     line-height: 24px;
@@ -555,31 +632,334 @@ input {
     box-shadow: var(--inset-shadow);
     transition: border var(--transition-alpha);
 }
-    .c-input:focus {
-        outline: none;
-        border-color: var(--color-neutral-xx-light);
-    }
 
-
-    .c-input:focus,
-    .c-input:active {
-        border-color: var(--color-alpha-x-light);
-        box-shadow: var(--focus-shadow);
-    }
-
-    .c-input::placeholder {
-        color: var(--color-neutral-x-light);
-    }
-
-.c-password-toggle-container {
-    position: relative;
-    display: block;
+.c-input:hover {
+    border-color: var(--color-neutral-xx-light);
 }
+
+.c-input:focus,
+.c-input:active {
+    border-color: var(--color-alpha-x-light);
+    box-shadow: var(--focus-shadow);
+}
+
+/*
+Input password with toggle checkbox on top of it needs
+more padding on the right to avoid overlap
+*/
+
 .c-input--password-with-toggle {
     padding-right: 52px;
 }
 
-c-password-toggle-container {
+/* option input for checkboxes and radio buttons */
+
+.c-input-option {
+    margin-right: 8px;
+}
+
+/*
+    Component: Label
+    ---
+    Class to put on all form labels
+*/
+
+.c-label {
+    margin-bottom: 0;
+    padding-bottom: 8px;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--color-neutral-x-dark);
+}
+
+.c-label--option {
+    padding-bottom: 0;
+    margin-left: 8px;
+}
+
+/*
+    Component: Button
+    ---
+    Class to put on form buttons or
+*/
+
+.c-button {
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-alpha-dark);
+    background-color: var(--color-alpha);
+    color: #fff;
+    padding: 11px 16px;
+    line-height: 24px;
+    width: 100%;
+    outline: none;
+    transition: all var(--transition-alpha);
+}
+
+.c-button:hover {
+    background-color: var(--color-alpha-light);
+}
+
+.c-button:focus {
+    background-color: var(--color-alpha);
+    box-shadow: var(--focus-shadow);
+}
+
+.c-button:active {
+    background-color: var(--color-alpha-dark);
+    box-shadow: none;
+}
+
+/*
+    Component: Option list
+    ---
+
+*/
+
+.c-option-list {
+    margin-bottom: 24px;
+}
+
+.c-option-list__item {
+    margin-bottom: 12px;
+}
+
+/*
+    Custom option
+    ---
+    Custom checkboxes & radio buttons
+*/
+
+/* Hide the actual input with the class .o-hide-accessible */
+
+/* the label is a separate component */
+.c-custom-input-option-label {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+.c-custom-input-option {
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 1px solid var(--color-neutral-xxx-light);
+    box-shadow: var(--inset-shadow);
+    transition: border var(--transition-alpha);
+}
+
+.c-custom-input-option--checkbox {
+    border-radius: var(--radius);
+}
+
+.c-custom-input-option--radio {
+    border-radius: 100%;
+}
+
+.c-custom-input-option__symbol {
+    display: block;
+    opacity: 0; /* Hide the svg initially */
+    transform: scale(.5);
+    transition: all var(--transition-alpha);
+}
+
+.c-custom-input-option--checkbox .c-custom-input-option__symbol {
+    width: 10px;
+    height: 10px;
+    fill: var(--color-alpha);
+}
+
+.c-custom-input-option--radio .c-custom-input-option__symbol {
+    background-color: var(--color-alpha);
+    border-radius: 100%;
+    width: 6px;
+    height: 6px;
+}
+
+/* hover state */
+
+.c-custom-input-option-label:hover .c-custom-input-option {
+    border-color: var(--color-neutral-xx-light);
+}
+
+/* focused and active state */
+
+.c-custom-input-option-hidden:focus + .c-custom-input-option-label .c-custom-input-option {
+    border: 1px solid var(--color-alpha-x-light);
+    box-shadow: var(--focus-shadow);
+}
+
+/* checked state */
+
+.c-custom-input-option-hidden:checked + .c-custom-input-option-label .c-custom-input-option__symbol {
+    opacity: 1; /* Show the svg when the invisible checkbox is checked */
+    transform: scale(1);
+}
+
+/*
+    Component: Custom Toggle
+    ---
+    Visually change a checkbox into a toggle
+*/
+
+.c-toggle-list {
+    margin-bottom: 24px;
+}
+
+.c-toggle-list__item {
+    margin-bottom: 12px;
+}
+
+.c-toggle-list__item + .c-toggle-list__item {
+    padding-top: 12px;
+    border-top: 1px solid var(--color-neutral-xxx-light);
+}
+
+.c-toggle__label {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+.c-toggle__label--inverted {
+    -webkit-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.c-toggle__input {
+    display: block;
+    height: 24px;
+    width: 48px;
+    margin-right: 16px;
+    background-color: var(--color-neutral-xxxx-light);
+    border-radius: 32px;
+    border: 1px solid var(--color-neutral-xxx-light);
+    transition: all var(--transition-alpha);
+}
+
+.c-toggle__label--inverted .c-toggle__input {
+    margin-right: 0;
+}
+
+.c-toggle__input::after {
+    display: block;
+    content: '';
+    height: 22px;
+    width: 22px;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.2);
+    background-color: #fff;
+    /* background-image: linear-gradient(to bottom, #fff, var(--color-neutral-xxxx-light)); */
+    transition: all var(--transition-alpha);
+}
+
+/* focused and active state */
+
+.c-toggle__checkbox-hidden:focus + .c-toggle__label .c-toggle__input,
+.c-toggle__checkbox-hidden:active + .c-toggle__label .c-toggle__input {
+    border-color: var(--color-alpha-x-light);
+    box-shadow: var(--focus-shadow);
+}
+
+/* checked state */
+
+.c-toggle__checkbox-hidden:checked + .c-toggle__label .c-toggle__input::after {
+    transform: translate(24px,0);
+}
+
+.c-toggle__checkbox-hidden:checked + .c-toggle__label .c-toggle__input {
+    background-color: var(--color-alpha);
+    border-color: var(--color-alpha-dark);
+}
+
+/* alternative design */
+
+.c-toggle__input--alternative {
+    height: 20px;
+    width: 40px;
+    background-color: var(--color-neutral-xxx-light);
+    border-color: white;
+}
+
+.c-toggle__input--alternative::after {
+    transform: translate(-2px,-2px);
+    border: 1px solid white;
+}
+
+/* focused and active state */
+
+.c-toggle__checkbox-hidden:focus + .c-toggle__label .c-toggle__input--alternative,
+.c-toggle__checkbox-hidden:active + .c-toggle__label .c-toggle__input--alternative {
+    border-color: white;
+    box-shadow: none;
+}
+
+.c-toggle__checkbox-hidden:focus + .c-toggle__label .c-toggle__input--alternative::after,
+.c-toggle__checkbox-hidden:active + .c-toggle__label .c-toggle__input--alternative::after {
+    border-color: var(--color-alpha-x-light);
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.2), 0 0 0 3px var(--focus-shadow-color);
+}
+
+/* checked state */
+
+.c-toggle__checkbox-hidden:checked + .c-toggle__label .c-toggle__input--alternative::after {
+    transform: translate(18px,-2px);
+    background-color: var(--color-alpha);
+    border-color: var(--color-alpha);
+}
+
+.c-toggle__checkbox-hidden:focus:checked + .c-toggle__label .c-toggle__input--alternative::after,
+.c-toggle__checkbox-hidden:active:checked + .c-toggle__label .c-toggle__input--alternative::after {
+    border-color: var(--color-alpha-dark);
+}
+
+.c-toggle__checkbox-hidden:checked + .c-toggle__label .c-toggle__input--alternative {
+    background-color: var(--color-alpha-xx-light);
+    border-color: white;
+}
+
+/*
+    Component: Custom Select
+    ---
+    Custom select dropdown
+*/
+
+
+.c-custom-select {
+    display: block;
+    position: relative;
+}
+
+.c-custom-select__symbol {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    pointer-events: none;
+    fill: var(--color-neutral-x-light);
+}
+
+/*
+    Component: Password Toggle
+    ---
+    Password toggle custom checkbox
+*/
+
+.c-password-toggle-container {
     position: relative;
     display: block;
 }
@@ -619,209 +999,6 @@ c-password-toggle-container {
     display: none;
 }
 
-/*
-    Component: Label
-    ---
-    Class to put on all form labels
-*/
-
-.c-label {
-    font-size: 14px;
-    line-height: 16px;
-    margin-bottom: 8px;
-    color: var(--color-neutral-x-dark);
-}
-.c-label--option{
-    margin-bottom:0;
-    margin-left:8px;
-}
-.c-logo {
-    height:24px;
-    display: flex;
-    justify-content:center;  
-    margin-bottom:48px;
-}
-.c-logo__symbol{
-    display: block;
-    height: 100%;
-}
-
-.c-logo-outer-circle {
-    fill: white;
-}
-
-.c-logo-outer-circle {
-    fill: white;
-}
-.c-logo-text {
-    fill: white;
-}
-
-/* If a input is focused within the form-field class change te color of the label */
-
-.c-form-field:focus-within .c-label {
-
-}
-
-.c-form-field--option{
-    display:flex;
-    align-items:center;
-
-}
-/*
-    Custom option
-    ---
-    Custom checkboxes & radio buttons
-*/
-
-.c-custom-option {
-
-}
-
-/* Hide the actual input but still be able to focus on it */
-.c-custom-option__input {
-
-}
-
-.c-custom-option__label {
-
-}
-
-.c-custom-option__fake-option {
-
-}
-
-.c-custom-option__symbol {
-    /* Hide the svg initially */
-}
-
-/* focused state */
-
-.c-custom-option__input:focus + .c-custom-option__label .c-custom-option__fake-option {
-
-}
-
-/* checked state */
-
-.c-custom-option__input:checked + .c-custom-option__label .c-custom-option__fake-option {
-
-}
-
-.c-custom-option__input:checked + .c-custom-option__label .c-custom-option__symbol {
-    /* Show the svg when the invisible checkbox is checked */
-}
-
-.c-custom-option__input:checked + .c-custom-option__label .c-custom-option__path {
-
-}
-
-/* focused & checked state */
-
-.c-custom-option__input:focus:checked + .c-custom-option__label .c-custom-option__fake-option {
-
-}
-
-/*
-    Component: Button
-    ---
-    Class to put on form buttons or links
-*/
-
-.c-button {
-    font-size: 16px;
-    height: 48px;
-    color: white;
-    width: 100%;
-    background-color: #3385FF;
-    padding: 8px;
-    border: solid 1px;
-    border-color: #2E77E6;
-    border-radius:3px;
-    outline:none;
-
-}
-
-    .c-button:hover {
-        box-shadow: 0 0 0 1px #3385FF;
-    }
-
-    .c-button:focus {
-        box-shadow: 0 0 0 1px #2E77E6;
-    }
-
-    .c-button:active {
-        box-shadow: 0 0 0 1px #2E77E6;
-    }
-
-.c-button--block {
-
-}
-
-.c-custom-input-option-label {
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
-    -ms-align-items: center;
-    align-items: center;
-    padding-bottom: 0;
-}
-
-.c-custom-input-option {
-    display: flex;
-    -ms-align-items: center;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    border: 1px solid var(--color-neutral-xxx-light);
-    box-shadow: var(--inset-shadow);
-    transition: border var(--transition-alpha);
-}
-
-.c-custom-input-option--checkbox {
-    border-radius: var(--radius);
-}
-
-.c-custom-input-option--radio {
-    border-radius: 100%;
-}
-
-.c-custom-input-option__symbol {
-    display: block;
-    opacity: 0;
-    transform: scale(.5);
-    transition: all var(--transition-alpha);
-}
-
-.c-custom-input-option--checkbox .c-custom-input-option__symbol {
-    width: 10px;
-    height: 10px;
-    fill: var(--color-alpha);
-}
-
-.c-custom-input-option--radio .c-custom-input-option__symbol {
-    background-color: var(--color-alpha);
-    border-radius: 100%;
-    width: 6px;
-    height: 6px;
-}
-
-.c-custom-input-option-label:hover .c-custom-input-option {
-    border-color: var(--color-neutral-xx-light);
-}
-
-.c-custom-input-option-hidden:focus + .c-custom-input-option-label .c-custom-input-option {
-    border: 1px solid var(--color-alpha-x-light);
-    box-shadow: var(--focus-shadow);
-}
-
-.c-custom-input-option-hidden:checked + .c-custom-input-option-label .c-custom-input-option__symbol {
-    opacity: 1; /* Show the svg when the invisible checkbox is checked */
-    transform: scale(1);
-}
-
-
 /*------------------------------------*\
 #UTILITIES
 \*------------------------------------*/
@@ -832,16 +1009,12 @@ c-password-toggle-container {
     Utility classes to put specific colors onto elements
 */
 
-.u-color-neutral-base {
-    color: Silver;
+.u-color-neutral {
+    color: var(--color-neutral);
 }
 
 .u-color-neutral-dark {
-    color: Black;
-}
-
-.u-color-grey {
-    color:#757787;
+    color: var(--color-neutral-dark);
 }
 
 /*
